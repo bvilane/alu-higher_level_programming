@@ -1,116 +1,64 @@
-# 0-add_integer.txt
-# Carlos Barros <1543@holbertonschool.com>
+# run test with python3 -m doctest -v ./tests/0-add_integer.txt
 
-===========================
-How to Use 0-add_integer.py
-===========================
-
-This module defines an integer addition function ``add_integer(a, b=98)``.
-
-Usage
-=====
-
-``add_integer(...)``` returns the addition of its two arguments. For numbers,
-that value is equivalent to using the ``+`` operator.
----------------------
-
+First import method to test
 >>> add_integer = __import__('0-add_integer').add_integer
 
-    >>> add_integer(100, 200)
-    300
+SUCCESS CASES:
 
-    >>> add_integer(11, 39)
-    50
+Test signed and unsigned ints and floats:
+     >>> print(add_integer(1, 2))
+     3
+     >>> print(add_integer(-1, 2))
+     1
+     >>> print(add_integer(1.5, 2.9))
+     3
+     >>> print(add_integer(-2.9, 1))
+     -1
 
-The function receives float numbers
+Test use of default b=98 value:
+     >>> print(add_integer(1))
+     99
 
-::
+FAIL CASES:
 
-    >>> add_integer(200.4, 200.1)
-    400
+Test no args:
+     >>> print(add_integer(None))
+     Traceback (most recent call last):
+     ...
+     TypeError: a must be an integer
+     >>> print(add_integer(None, None))
+     Traceback (most recent call last):
+     ...
+     TypeError: a must be an integer
 
-    >>> add_integer(-31.4, 3)
-    -28
+Test extra args:
+     >>> print(add_integer(1, 2, 3))
+     Traceback (most recent call last):
+     ...
+     TypeError: add_integer() takes from 1 to 2 positional arguments but 3 were given
 
-The function receives negative numbers
+Test other data types:
+     >>> print(add_integer("hey"))
+     Traceback (most recent call last):
+     ...
+     TypeError: a must be an integer
+     >>> print(add_integer(0, [1, 2, 3]))
+     Traceback (most recent call last):
+     ...
+     TypeError: b must be an integer
 
-::
+Test max/min numbers Python can handle ("inf" is infinity):
+     >>> print(add_integer(float("inf")))
+     Traceback (most recent call last):
+     ...
+     OverflowError: cannot convert float infinity to integer
+     >>> print(add_integer(float("-inf")))
+     Traceback (most recent call last):
+     ...
+     OverflowError: cannot convert float infinity to integer
 
-    >>> add_integer(-30, 90)
-    60
-
-    >>> add_integer(80, -60)
-    20
-
-The function receives numbers from different types of data 
-
-::
-
-    >>> add_integer(8.0, -6)
-    2
-
-    >>> add_integer(34, -70.5)
-    -36
-
-The default value of parameter b is 98. 
-If the function only receives one parameter it will be added to this number
-
-::
-
-    >>> add_integer(2)
-    100
-
-    >>> add_integer(5443443443.6645434)
-    5443443541
-
-Types of errors
-=====
-
-The function does not receive string data
-
-::
-    >>> add_integer("hello world", 43)
-    Traceback (most recent call last):
-    TypeError: a must be an integer
-
-
-The function expects you to miss at least one parameter.
-
-::
-    >>> add_integer(None)
-    Traceback (most recent call last):
-    TypeError: a must be an integer
-
-If parameter 'b' is None
-
-::
-    >>> add_integer(2.3, None)
-    Traceback (most recent call last):
-    TypeError: b must be an integer
-
-
-If both parameters are neither integer nor float the error will be the following
-
-::
-    >>> add_integer("holberton", "school")
-    Traceback (most recent call last):
-    TypeError: a must be an integer
-
-Cannot convert float NaN to integer
-
- ::
-    >>> add_integer(float('NaN'))
-    Traceback (most recent call last):
-    ValueError: cannot convert float NaN to integer
-
-
-If the function receives as parameter float('inf')
-
-::
-    >>> add_integer(float('inf'))
-    Traceback (most recent call last):
-    OverflowError: cannot convert float infinity to integer
-
-    >>> add_integer(-float('inf'))
-    Traceback (most recent call last):
-    OverflowError: cannot convert float infinity to integer
+Test special float NaN in Python (not a number):
+     >>> print(add_integer(float("NaN")))
+     Traceback (most recent call last):
+     ...
+     ValueError: cannot convert float NaN to integer
